@@ -1,0 +1,113 @@
+<!--
+ - Created by Lenovo on 13.04.2020.
+ -->
+
+<aura:component description="AdminPage" controller="AdminPageController">
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="year" type="Integer"/>
+    <aura:attribute name="offices" type="List"/>
+    <aura:attribute name="balances" type="List"/>
+    <aura:attribute name="average" type="List"/>
+    <aura:attribute name="months" type="List"/>
+    <aura:attribute name="allData" type="Object"/>
+    <aura:attribute name="sumData" type="List"/>
+    <aura:attribute name="totalData" type="List"/>
+    <aura:attribute name="totalSum" type="String"/>
+    <aura:attribute name="selectedValue" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="slds-grid slds-grid_vertical" style="height: 97%; width: 60%;  position: relative; left: 20%">
+        <div class="slds-col slds-grid slds-gutters" style="height: 100%; width: 100%;">
+            <div class="slds-grid slds-grid_vertical slds-size_6-of-7 slds-border_bottom" style="height: 100%; width: 100%;">
+                <div class="slds-grid slds-gutters" style="height: 100%; width: 100%;">
+                    <div class="slds-size_2-of-5" style="width: 35%; height: 100%; position: relative; left: 2.9%">
+                        <div class="slds-grid_vertical" style="height: 93%; width: 100%; position: relative; ">
+                            <div style="width: 100%">
+                                <lightning:combobox aura:id="combobox" class="slds-text-heading_small" name="regionalExpenses" variant="label-hidden" value="2020"  placeholder="Select Regional Expenses" options="{! v.options }" onchange="{! c.handleChange }"/>
+                            </div>
+                            <div class="slds-grid slds-gutters" style="height: 12%; width: 100%; position: relative; left: 4.5%">
+                                <div class="slds-col slds-size_2-of-5" style="height: 100%; background-color: lightgrey;"/>
+                                <div class="slds-col slds-border_right" style="background-color: lightsteelblue">
+                                    <span class="slds-form__row" style="width: 160px; position: relative; top: 5px; left: 10px; font-weight: bold; color: red; font-size: 20px"> Balance now: </span>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters" style="height: 6%; width: 100%; position: relative; top: -2.2%; left: 4.5%">
+                                <div class="slds-col slds-size_2-of-5 slds-text-heading_medium" style="background-color: lightgrey">
+                                    <span style="font-weight: bold; color: darkblue"> Month </span>
+                                </div>
+                                <div class="slds-col slds-size_3-of-5  slds-text-align_left slds-border_bottom" style="background-color: antiquewhite">
+                                    <span class="slds-form__row" style="width: 160px; position: relative; top: 5px; left: 10px; color: red; font-weight: bold"> Monthly average </span>
+                                </div>
+                            </div>
+                            <div class="myTable" style="width: 100%;  height: 75%; position: relative; top: -2.2%">
+                                <aura:iteration items="{!v.months}" var="month">
+                                    <div  class="slds-border_bottom slds-border_left" style="width: 100%; height: 8.6%;">
+                                        <span style="position: relative; top: 6px; left: 5px">{!month}</span>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                            <div class="slds-border_left slds-text-heading_small" style="height: 7.5%; background-color: gray; font-weight: bold; position: relative; bottom:0%">
+                                <span style="position: relative; top: 6px; left: 5px">Total:</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical slds-size_3-of-3" style="width: 61.2%; height: 100%; position: relative; left: 3%">
+                        <div class="slds-col slds-grid slds-gutters" style=" width: 117%; height: 8%">
+                            <aura:iteration items="{!v.offices}" var="office" >
+                                <div class=" slds-size_1-of-3 slds-text-align_center slds-text-heading_medium slds-border_bottom slds-border_left" style="background-color: lavender; font-weight: bold;">
+                                    <lightning:button variant="base" class="slds-button_stretch"  label="{!office}" value="{!office}" onclick="{! c.handleClick }"/>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        <div class="slds-col slds-grid slds-gutters" style="position: relative; height: 12%; width: 105%; background-color: lightsteelblue">
+                            <aura:iteration items="{!v.balances}" var="balance">
+                                    <div class="slds-border_left slds-text-align_center slds-size_1-of-3 slds-text-heading_medium ">
+                                        <span style="font-weight: bold; position: relative; top: 7px;">{!balance}</span>
+                                    </div>
+                            </aura:iteration>
+                        </div>
+                        <div class=" slds-col slds-grid slds-gutters slds-border_bottom" style="height: 6%; width: 105%; background-color: antiquewhite; position: relative; top: -2.2%">
+                            <aura:iteration items="{!v.average}" var="aver">
+                                <div class=" slds-size_1-of-3 slds-text-align_center slds-border_left">
+                                    <span style=" position: relative; top: 5px;">{!aver}</span>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        <div class="myTable" style="width: 100%; height: 75%;  position: relative; top: -2.2%">
+                        <aura:iteration items="{!v.allData}" var="monthData">
+                            <div class="slds-col slds-grid slds-gutters slds-border_bottom" style="width: 105%; height: 8.6%">
+                                <aura:iteration items="{!monthData}" var="data">
+                                    <span class="slds-size_1-of-3 slds-text-align_left slds-border_left">
+                                        <span style="position: relative; top: 5px; left: 5px">{!data}</span>
+                                    </span>
+                                </aura:iteration>
+                            </div>
+                        </aura:iteration>
+                        </div>
+                        <div class="slds-col slds-grid slds-gutters" style="height: 7.5%; width: 105%; background-color: gray; font-weight: bold;">
+                            <aura:iteration items="{!v.totalData}" var="total">
+                                <div class=" slds-size_1-of-3 slds-text-align_center slds-border_left" style="font-weight: bold; position: relative; top: 5px">
+                                    {!total}
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_vertical slds-size_1-of-7 slds-border_bottom" style="position: relative; left: -3%; background-color: beige">
+                <div class="slds-col slds-border_bottom slds-border_left slds-text-heading_medium" >
+                    <span style="position: relative; bottom: -75%; font-weight: bold; color: red; font-size: 20px"> Summ: </span>
+                </div>
+                <aura:iteration items="{!v.sumData}" var="sum">
+                    <div class="slds-text-align_left slds-border_bottom slds-border_left" style="height: 6%">
+                        <span style="position: relative; top: 5px; left: 5px; font-weight: bold" >{!sum}</span>
+                    </div>
+                </aura:iteration>
+                <div class="slds-text-align_center slds-border_left" style="font-weight: bold; background-color: gray; height: 7%">
+                   <span style="position: relative; top: 5px"> {!v.totalSum} </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

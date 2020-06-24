@@ -1,0 +1,67 @@
+<!--
+ - Created by alena on 17.03.2020.
+ -->
+
+<aura:component description="Months" controller="MonthsController">
+    <aura:attribute name="dataTable" type="Object"/>
+    <aura:attribute name="totalAmount" type="String"/>
+    <aura:attribute name="totalIncome" type="String"/>
+    <aura:attribute name="year" type="String"/>
+    <aura:attribute name="month" type="String"/>
+    <aura:attribute name="amount" type="Currency"/>
+    <aura:attribute name="contactId" type="Id" access="global"/>
+
+    <aura:registerEvent name="passyearmonth" type="c:passYearAndMonth"/>
+    <aura:registerEvent name="passyearFromMonth" type="c:passYear"/>
+
+    <aura:handler name="passyear" event="c:passYear" action="{!c.handleYear}"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:method name="sampleMethod" action="{! c.doInit }" access="PUBLIC"/>
+
+    <div class="slds-grid slds-grid_vertical" style="height: 85%; width: 250px;">
+        <div class="slds-grid slds-gutters slds-p-left_x-large slds-border_right" style="width: 279px; position: relative; left: -22px;">
+            <div class="slds-col slds-size_1-of-3 slds-text-align_left" >
+                MONTHS
+            </div>
+            <div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+                Amount
+            </div>
+            <div class="slds-col slds-size_1-of-3 slds-text-align_center" >
+                Income
+            </div>
+        </div>
+        <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical slds-border_right" style="width: 245px">
+            <aura:iteration items="{!v.dataTable}" var="mapKey" indexVar="key">
+                    <span class="slds-nav-vertical__item slds-nav-vertical_compact" style="position: relative; left: -10px">
+                        <input type="radio" id="{!mapKey.key}" data-menu-item-id="{!mapKey.key}" value="{!mapKey.key}" name="months" onchange="{!c.handleMonth}"/>
+                        <label class="slds-nav-vertical__action" for="{!mapKey.key}" style="height: 30px">
+                            <span class=" slds-size_1-of-3 slds-text-align_left slds-nav-vertical_radio-faux" style="padding-right: 75px; width: 300px">{!mapKey.key}</span>
+                               <div class="slds-badge" style="position: relative; left: -220px; width: 50px">
+                                    {!mapKey.value[0]}
+                                </div>
+                                <div  class="slds-badge slds-text-align_right" style="position: relative; right: 190px">
+                                    {!mapKey.value[1]}
+                                </div>
+                        </label>
+                    </span>
+            </aura:iteration>
+        </div>
+        <div class="slds-grid slds-gutters slds-border_right" style="width: 257px; background-color: gray;">
+            <div class="slds-p-left_xx-large" style="background-color: white"/>
+            <div class= "slds-col slds-grid slds-gutters" style="background-color: gray; position: relative; left: -35px;">
+                <div class="slds-col slds-size_1-of-3 slds-text-align_left" >
+                    Total:
+                </div>
+                <div class="slds-col" style="position: relative; left: 15px">
+                    {!v.totalAmount}
+                </div>
+                <div class="slds-col" style="position: relative; left: 35px">
+                    {!v.totalIncome}
+                </div>
+            </div>
+        </div>
+        <div class="slds-col" style="position: relative; left: -25px;">
+            <c:Years/>
+        </div>
+    </div>
+</aura:component>

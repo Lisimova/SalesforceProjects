@@ -1,0 +1,23 @@
+<!--
+ - Created by alena on 26.02.2020.
+ -->
+
+<aura:component description="TabForPeriod" controller="ExchangeRatesController">
+    <aura:attribute name="gridData" type="Exchange_Rate__c[]"/>
+    <aura:attribute name="columns" type="String[]"/>
+    <aura:attribute name="baseCurrency" type="String" default="GBP"/>
+    <aura:handler name="displayData" event="c:displayData" action="{!c.handleDisplay}"/>
+
+    <div class="slds-grid slds-grid_vertical">
+        <div class="slds-col">
+            <c:DisplayConditionsForm/>
+        </div>
+        <div class="slds-col">
+            <c:Currencies/>
+        </div>
+        <div class="slds-col">
+        	<lightning:datatable aura:id="table" keyField="Id" columns="{!v.columns}" 
+                                             data = "{!v.gridData}" hideCheckboxColumn="true"/>
+        </div>
+    </div>
+</aura:component>

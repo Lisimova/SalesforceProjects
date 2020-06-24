@@ -1,0 +1,41 @@
+<!--
+ - Created by alena on 12.03.2020.
+ -->
+
+<aura:component description="LoginPage" controller="LoginPageController" implements="force:appHostable">
+    <aura:attribute name="username" type="String"/>
+    <aura:attribute name="password" type="String"/>
+    <aura:attribute name="contactId" type="Id" />
+
+    <aura:handler name="change" value="{!v.contactId}" action="{!c.handleValueChange}"/>
+
+    <div class="slds-align_absolute-center slds-grid slds-grid_vertical" style="background: white; height: 82.5%; width: 65%; padding-bottom: 8%">
+        <div class="slds-col slds-align_absolute-center slds-size--1-of-2">
+            <form class="slds-form slds-align-content-center">
+                <div class="slds-form-element slds-align-content-center">
+                    <img class="" src='https://sun2.dataix-by-minsk.userapi.com/4LHdSqtqP92WyrDqVSBRe_z9br_Mcv3PKoyobA/SOHxUaSihHA.jpg' style=" height:75%; width:85%"/>
+                </div>
+                <div class="slds-text-align_center" id="error" style="display: none; color: red;">
+                    Please check your username and password.
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label slds-text-heading--small" style="font-weight: bold; color: black; padding-bottom: 0px"  for="login">Login</label>
+                    <div class="slds-form-element__control slds-p-bottom_xxx-small">
+                        <lightning:input variant="label-hidden" type="email" label="Login"  id="login" placeholder="Enter your username" value="{!v.username}" />
+                    </div>
+                </div>
+                <div class="slds-p-top_small"></div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label slds-text-heading--small" style="font-weight: bold; color: black; padding-bottom: 0px"  for="password">Password</label>
+                    <div class="slds-form-element__control">
+                        <lightning:input type="password" variant="label-hidden" id="password" class="slds-p-top_none" placeholder="Password" value="{!v.password}" />
+                    </div>
+                </div>
+                <div class="slds-p-top_x-large"></div>
+                <div class="slds-form-element">
+                    <lightning:button onclick="{!c.getContact}" variant="brand" class="slds-button_stretch" label="Login" />
+                </div>
+            </form>
+        </div>
+    </div>
+</aura:component>

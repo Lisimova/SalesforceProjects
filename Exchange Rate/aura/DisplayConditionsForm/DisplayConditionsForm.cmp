@@ -1,0 +1,32 @@
+<!--
+ - Created by alena on 19.02.2020.
+ -->
+
+<aura:component description="DisplayConditionsForm" controller="ExchangeRatesController">
+    <aura:attribute name="today" type="Date"/>
+    <aura:attribute name="dateFrom" type="Date"/>
+    <aura:attribute name="dateTo" type="Date"/>
+    <aura:attribute name="disabled" type="Boolean" default="true"/>
+
+    <aura:registerEvent name="displayData" type="c:displayData"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="slds-grid_vertical">
+        <div class="slds-col">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning:input type="date" aura:id="date-from" label="Choose date" value="{!v.dateFrom}" max="{!v.today}" onchange="{!c.changeDateFrom}"/>
+                </div>
+                <div class="slds-col">
+                    <lightning:input type="date"  aura:id="date-to" label="Choose date" disabled="{!v.disabled}" value="{!v.dateTo}" min="{!v.dateFrom}" max="{!v.today}"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col">
+            
+        </div>
+        <div class="slds-col" align="center">
+            <lightning:button class="slds-button--neutral"  variant="neutral"  onclick="{!c.clickDisplay}">Display</lightning:button>
+        </div>
+    </div>
+</aura:component>

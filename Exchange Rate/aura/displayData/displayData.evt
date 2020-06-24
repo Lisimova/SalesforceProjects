@@ -1,0 +1,8 @@
+<!--
+ - Created by alena on 26.02.2020.
+ -->
+
+<aura:event type="APPLICATION" description="displayData">
+    <aura:attribute name="dateFrom" type="Date"/>
+    <aura:attribute name="dateTo" type="Date"/>
+</aura:event>

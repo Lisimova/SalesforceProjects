@@ -1,0 +1,19 @@
+<!--
+ - Created by alena on 26.02.2020.
+ -->
+
+<aura:component description="Currencies" controller="ExchangeRatesController">
+    <aura:attribute name="baseCurrencies" type="String[]"/>
+    <aura:registerEvent name="passCurrency" type="c:passBaseCurrency"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="slds-form-element">
+        <div class="slds-form-element_control">
+            <lightning:select aura:id="select" label="Select base currency" name="select" onchange="{!c.selectChange}">
+                <aura:iteration items="{!v.baseCurrencies}" var="cur">
+                    <option value="{!cur}" text="{!cur}"/>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+    </div>
+</aura:component>

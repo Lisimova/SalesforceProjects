@@ -1,0 +1,7 @@
+<!--
+ - Created by alena on 13.02.2020.
+ -->
+
+<aura:event type="COMPONENT" description="loadForm">
+    <aura:attribute name="city" type="City__c"/>
+</aura:event>

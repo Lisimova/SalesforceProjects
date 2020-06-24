@@ -1,0 +1,8 @@
+<!--
+ - Created by alena on 24.03.2020.
+ -->
+
+<aura:event type="APPLICATION" description="passYearAndMonth">
+    <aura:attribute name="year" type="String"/>
+    <aura:attribute name="month" type="String"/>
+</aura:event>

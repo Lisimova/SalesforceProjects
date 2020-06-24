@@ -1,0 +1,144 @@
+<aura:component description="ExpensesOfficePage" controller="ExpensesOfficePageController" implements="force:appHostable" access="global">
+    <aura:attribute name="contactId" type="Id" access="global"/>
+    <aura:attribute name="office" type="String"/>
+    <aura:attribute name="balance" type="Currency"/>
+    <aura:attribute name="amount" type="Currency"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="isIncome" type="boolean" default="false"/>
+    <aura:attribute name="month" type="String"/>
+    <aura:attribute name="year" type="String"/>
+    <aura:attribute name="today" type="String"/>
+    <aura:attribute name="newExpense" type="Expense_Card__c"
+                    default="{'sObjectType': 'Expense_Card__c',
+                               'Amount__c': '',
+                               'Description__c': '',
+                               'Date__c': '',
+                               'CardKeeper__c': ''}"/>
+
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler name="passyearmonthToHome" event="c:passYearAndMonth" action="{!c.handleYearMonth}"/>
+    <aura:handler name="passyearFromExp" event="c:passYear" action="{!c.handleYear}"/>
+    <aura:handler name="rerenderBalance" event="c:rerenderComponent" action="{!c.changeBalance}"/>
+
+    <div class="slds-grid slds-gutters" style="background-color: gainsboro; width: 1112px; height: 10%; position: relative; left: 100px ">
+        <div class="slds-col slds-text-align_left" style="width: 200px; position: relative; top: 12px">
+            <span class="slds-text-heading_medium  slds-truncate" style="color: gray; letter-spacing: 1px; font-weight: normal;" title="Expenses Office">Expenses {!v.office} </span>
+        </div>
+        <div class="slds-col slds-align_absolute-center">
+            <div class="slds-form__row">
+                <span class="slds-page-header__title slds-text-heading_large slds-truncate" title="Balance" style="color: black; letter-spacing: 1px; font-weight: normal ">Balance:  </span>
+                <div class="slds-p-right_medium"/>
+                <span class="slds-page-header__title slds-text-heading_large slds-truncate" title="Currency" style="color: black; font-weight: 700">
+                    ${!v.balance}
+                </span>
+            </div>
+        </div>
+
+        <div class="slds-col " style="position: relative; left: 145px; top: 10px">
+            <ul class="slds-button-group-list">
+                <li>
+                    <lightning:button iconName="utility:arrowdown" variant="neutral" label="Income" onclick="{!c.openIncome}"/>
+                </li>
+                <li>
+                    <lightning:button variant="neutral" label="New Expense" onclick="{!c.openPopup}"/>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="slds-grid" style="background: white; height: 90%; width: 1100px; position: relative; left: 100px ">
+        <div class="slds-grid slds-gutters" style="background: white">
+            <div class="slds-col slds-grid_vertical">
+                <div class="slds-col">
+                    <c:Expenses aura:id="expenses" contactId = "{!v.contactId}" year="{!v.year}" month="{!v.month}"/>
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.isModalOpen}">
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" style="background-color: slategray"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container" style="height: 100%">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header" style="background-color: lightgray">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Expense Card</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="background-color: lightgray">
+                        <div class="slds-form-element slds-size_1-of-4">
+                            <div class="slds-form-element__control">
+                                <lightning:input type="number" formatter="currency" label="Amount" aura:id="createForm" class="slds-p-top_none" placeholder="Amount..." value="{!v.newExpense.Amount__c}" min="0"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element slds-size_1-of-4">
+                            <div class="slds-form-element__control">
+                                <lightning:input type="date" aura:id="createForm" label="Date" class="slds-p-top_none" value="{!v.newExpense.CardDate__c}"/>
+                            </div>
+                            <div class="errorMessage slds-text slds-hide" aura:id="errorDate">
+                                Complete this field!
+                            </div>
+                        </div>
+                        <div class="slds-form-element" >
+                            <div class="slds-form-element__control" >
+                                <lightning:textarea label="Description" aura:id="createForm" multiple="true" class="slds-p-top_none" placeholder="Placeholder text"  value="{!v.newExpense.Description__c}" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer slds-text-align_right" style="background-color: lightgray">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{!c.closeModel}"/>
+                        <lightning:button variant="brand"
+                                          label="Save"
+                                          title="Save"
+                                          onclick="{!c.saveExpense}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.isIncome}">
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" style="background-color: slategray"  tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header" style="background-color: lightgray">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeIncome }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Top Up Balance</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="background-color: lightgray">
+                        <div class="slds-form-element slds-size_1-of-4">
+                            <div class="slds-form-element__control">
+                                <lightning:input type="number" label="Amount" class="slds-p-top_none" placeholder="Amount..." value="{!v.amount}" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer slds-text-align_right" style="background-color: lightgray">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{!c.closeIncome}"/>
+                        <lightning:button variant="brand"
+                                          label="Top up"
+                                          title="Top up"
+                                          onclick="{!c.topUpBalance}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

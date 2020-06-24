@@ -1,0 +1,24 @@
+<!--
+ - Created by alena on 25.02.2020.
+ -->
+
+<aura:component description="ExchangeRatesForm" implements="force:appHostable">
+    <div class="slds-tabs--default" style="display: block; background: white;">
+        <lightning:tabset selectedTabId="one">
+            <div class="slds-tabs--default__item" >
+                <lightning:tab  label="All Exchange Rates" id="one">
+                    <div class="slds-tabs--default__content">
+                        <c:DefaultResultTable/>
+                    </div>
+                </lightning:tab>
+            </div>
+            <div class="slds-tabs--default__item ">
+                <lightning:tab label="Exchange Rates For Period" id="two">
+                    <div class="slds-tabs--default__content">
+                        <c:TabForPeriod/>
+                    </div>
+                </lightning:tab>
+            </div>
+        </lightning:tabset>
+    </div>
+</aura:component>

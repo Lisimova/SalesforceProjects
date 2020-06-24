@@ -1,0 +1,7 @@
+<!--
+ - Created by alena on 09.04.2020.
+ -->
+
+<aura:event type="APPLICATION" description="rerenderComponent">
+    <aura:attribute name="render" type="Boolean"/>
+</aura:event>

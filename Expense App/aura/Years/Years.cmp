@@ -1,0 +1,16 @@
+<!--
+ - Created by alena on 17.03.2020.
+ -->
+
+<aura:component description="Years" controller="YearsController">
+    <aura:attribute name="years" type="List[]"/>
+    <aura:attribute name="year" type="String" default=""/>
+    <aura:registerEvent name="passyear" type="c:passYear"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:radioGroup name="year"
+                          label="Years"
+                          options="{! v.years }"
+                          value="{!v.year}"
+                          type="button" onchange="{!c.selectYear}"/>
+</aura:component>

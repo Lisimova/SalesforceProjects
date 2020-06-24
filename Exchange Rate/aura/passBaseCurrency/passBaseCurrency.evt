@@ -1,0 +1,7 @@
+<!--
+ - Created by alena on 26.02.2020.
+ -->
+
+<aura:event type="APPLICATION" description="passBaseCurrency">
+    <aura:attribute name="baseCurrency" type="String"/>
+</aura:event>

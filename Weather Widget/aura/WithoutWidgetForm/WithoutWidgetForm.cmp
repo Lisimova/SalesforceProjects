@@ -1,0 +1,94 @@
+<!--
+ - Created by alena on 12.02.2020.
+ -->
+
+<aura:component access="global" description="WithoutWidgetForm" controller="WeatherCallout" implements="force:appHostable,flexipage:availableForAllPageTypes">
+
+    <aura:handler action="{!c.doInit}" name="init" value="{!this}"/>
+    <aura:attribute name="weatherList" type="WeatherCallout[]"/>
+    <aura:handler name="loadingWeather" event="c:loadForm" action="{!c.handleChangeWeather}"/>
+
+    <div class="slds-brand-band slds-brand-band_large"></div>
+
+    <div class="slds-grid slds-grid_vertical " id="allForm" style="display: block">
+         <div class="slds-card__header slds-grid">
+    		<header>
+            <div class="slds-text-heading_large">
+                {!v.weatherList[0].city}
+            </div>
+            <div class="slds-text-heading_medium">
+                {!v.weatherList[0].info}
+            </div>
+            <div class="slds-text-heading_medium">
+                {!v.weatherList[0].data}
+            </div>
+             </header>
+        </div>
+        <div class="slds-col">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size--2-of-3">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-gutters">
+                                    <div class="slds-text-heading--medium">
+                                        <img  src='{!v.weatherList[0].iconUrl}'/>
+                                        {!v.weatherList[0].temp}
+                                        <lightning:button variant="base" label="°C" onclick="{!c.parseToCelsius}"/> |
+                                        <lightning:button variant="base" label="°F" onclick="{!c.parseToFahrenheit}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-grid_vertical">
+                                <div class="slds-col" id="temperatureInfo" style="display: block;">
+                                    <div class="slds-text-heading_small"> Minimum temperature: {!v.weatherList[0].temp_min} ° </div>
+                                    <div class="slds-text-heading_small"> Maximum temperature: {!v.weatherList[0].temp_max} °</div>
+                                </div>
+                                <div class="slds-col" id="otherInfo" style="display: none;">
+                                    <div class="slds-text-heading_small"> Wind speed: {!v.weatherList[0].windSpeed} m/s</div>
+                                    <div class="slds-text-heading_small"> Pressure: {!v.weatherList[0].pressure} hPa</div>
+                                    <div class="slds-text-heading_small"> Humidity: {!v.weatherList[0].humidity} %</div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-button-group">
+                                        <button class="slds-button slds-button_neutral" aura:id="btnTemp" disabled="false" onclick="{!c.showTemperature}">Temperature</button>
+                                        <button class="slds-button slds-button_neutral" aura:id="btnOth" disabled="false" onclick="{!c.showOther}">Other Information</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters">
+                <aura:iteration items="{!v.weatherList}" var="item">
+                    <div class="slds-col">
+                        <div class="slds-grid slds-grid_vertical">
+                             <div class="slds-text-align_center slds-text-body--regular slds-col">
+                                 {!item.data}
+                             </div>
+                            <div class="slds-illustration slds-illustration_small">
+                                <img  src='{!item.iconUrl}'/>
+                            </div>
+                            <div class="slds-text-align_center slds-text-body--regular slds-col">
+                                {!item.temp} °
+                            </div>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+            <div class="slds-col">
+                <c:InputArea/>
+            </div>
+        </div>
+
+    </div>
+    <div class="slds-grid_vertical" id="error" style="display: none">
+        <img src="https://pbs.twimg.com/profile_images/1161854916500922368/eof0M5fr_400x400.jpg"/>
+        <div class="slds-text-heading_large">
+            This city hasn't founded. Please refresh the page.
+        </div>
+    </div>
+</aura:component>
