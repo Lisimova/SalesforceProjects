@@ -1,0 +1,49 @@
+<aura:component implements="force:appHostable" controller="lineItemController" >
+    <aura:attribute name="newWorkOrderLineItem" type="WorkOrderLineItem" default="{'sObjectType':'WorkOrderLineItem',
+                                                                       				'Status': 'new',
+                                                                       				'Description': ''}"/>
+    <aura:attribute name="optionsStatus" type="List" default="[ {'label' : '--None--', 'value': 'none'},
+        														{'label' : 'New', 'value': 'new'},
+        														{'label' : 'In Progress', 'value': 'in progress'},
+        														{'label' : 'On Hold', 'value': 'on hold'},
+        														{'label' : 'Complited', 'value': 'coomplited'},
+        														{'label' : 'Closed', 'value': 'closed'},
+        														{'label' : 'Cannot Complete', 'value': 'cannot complete'},
+        														{'label' : 'Canceled', 'value': 'canceled'}]"/>
+       
+    <aura:attribute name="selectedLookUpWorkType" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpWorkOrder" type="sObject" default="{}"/>
+    
+    <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+        <div class="slds-grid slds-align_absolute-center slds-border_bottom">
+            <span class="slds-text-heading_large slds-p-bottom_medium"> New Work Order Line Item </span>
+        </div>
+        <div class="slds-grid slds-grid_vertical">
+            <div class="slds-col slds-grid slds-gutters">
+                <div class="halfArea slds-col slds-size--1-of-2">
+            		<lightning:combobox aura:id="workOrderLineItem" class="slds-size--1-of-1" options="{!v.optionsStatus}" label="Status" required="false" value="{!v.newWorkOrderLineItem.Status}"/>
+                </div>
+                <div class="halfArea slds-col slds-size--1-of-2">
+                   <c:customLookUpForPrePolution objectAPIName="WorkOrder" IconName="standard:work_order" selectedRecord="{!v.selectedLookUpWorkOrder}" label="Work Order"/>
+                	<div aura:id="errorWorkOrder" class= "errorMessage slds-text slds-hide">
+                		Complete this field!
+            		</div>
+                </div>
+            </div>
+            <div class="slds-col slds-grid slds-gutters">
+                <div class="halfArea slds-col slds-size--1-of-2"/>
+                <div class="halfArea slds-col slds-size--1-of-2">
+                    <c:customLookup objectAPIName="WorkType" IconName="standard:work_type" selectedRecord="{!v.selectedLookUpWorkType}" label="Work Type" required="false"/>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1">
+            	<lightning:textarea aura:id="workOrderLineItem" label="Description" value="{!v.newWorkOrderLineItem.Description}" />
+            </div>
+    	</div>
+    </div>
+    <div class="slds-grid slds-align_absolute-center slds-border_top"> 
+        <div class="nextButton">
+            <lightning:button type="button" label="Next" variant="brand" onclick="{!c.clickCreate}"/>
+        </div>
+    </div>
+</aura:component>

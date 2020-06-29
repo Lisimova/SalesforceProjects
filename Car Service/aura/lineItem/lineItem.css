@@ -1,0 +1,37 @@
+.slds-grid.THIS {
+    width: 80%; 
+    height: 80%; 
+    background-color: white;
+}
+
+.THIS .slds-border_bottom {
+    width: 100%; 
+    height: 10%; 
+    position: relative; top: -15%;
+}
+
+.THIS .slds-grid_vertical {
+    width: 90%; 
+    position: relative; top: -20%;
+}
+
+.THIS .slds-grid_vertical .halfArea {
+    width: 50%;
+}
+
+.THIS .slds-grid_vertical .halfArea .errorMessage {
+    color: red;
+}
+
+.slds-border_top.THIS {
+    width: 80%; 
+    height: 10%; 
+    background-color: lightgray; 
+    position: relative; top: -5%; 
+    border-width: thin; 
+    border-color: gray
+}
+
+.slds-border_top.THIS .nextButton {
+    position: relative; left: 42%;
+}

@@ -1,0 +1,50 @@
+<aura:component implements="force:appHostable" controller="stepFourController" >
+    <aura:attribute name="newProductItem" type="ProductItem" default="{'sObjectType':'ProductItem',
+                                                                       'QuantityOnHand': '',
+                                                                       'QuantityUnitOfMeasure': '',
+                                                                       'SerialNumber': ''}"/>
+    <aura:attribute name="options" type="List" default="[
+        {'label' : '--None--', 'value': 'none'},
+        {'label' : 'Each', 'value': 'each'}]"/>
+    <aura:attribute name="workTypeId" type="Id"/>
+    <aura:attribute name="selectedLookUpProduct" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpLocation" type="sObject" default="{}"/>
+    
+    <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+        <div class="slds-grid slds-border_bottom slds-align_absolute-center">
+            <span class="slds-text-heading_large slds-p-bottom_medium"> New Product Item</span>
+        </div>
+        <div class="slds-grid slds-grid_vertical">
+            <div class="slds-col slds-grid slds-gutters">
+                <div class="halfArea slds-col slds-size--1-of-2" >
+            		<c:customLookup objectAPIName="Product2" IconName="standard:product" selectedRecord="{!v.selectedLookUpProduct}" label="Product Name"/>
+            		<div aura:id="errorProduct" class= "slds-text slds-hide" style="color: red;">
+                		Complete this field!
+            		</div>
+                </div>
+                <div class="halfArea slds-col slds-size--1-of-2">
+                    <c:customLookup objectAPIName="Location" IconName="standard:location" selectedRecord="{!v.selectedLookUpLocation}" label="Location"/>
+                	<div aura:id="errorLocation" class="errorMessage slds-text slds-hide">
+                		Complete this field!
+            		</div>
+                </div>
+            </div>
+            <div class="slds-col slds-grid slds-gutters">
+                <div class="halfArea slds-col slds-size--1-of-2">
+            		<lightning:input label="Quantity On Hand" formatter="decimal"  required="true" step="0.01"  class="slds-size--1-of-1 slds-p-bottom_small" type="number" value="{!v.newProductItem.QuantityOnHand}"/>
+        		</div>
+                <div class="halfArea slds-col slds-size--1-of-2">
+                    <lightning:combobox aura:id="workType" class="slds-size--1-of-1 slds-p-bottom_medium" options="{!v.options}" label="Quantity Unit Of Measure" required="false" value="{!v.newProductItem.QuantityUnitOfMeasure}"/>
+                </div>
+            </div>
+            <div class="snArea slds-col slds-size--1-of-2">
+            	<lightning:input label="Serial Number" value="{!v.newProductItem.SerialNumber}"/>
+            </div>
+    	</div>
+    </div>
+    <div class="slds-grid slds-align_absolute-center slds-border_top"> 
+        <div class="saveButton">
+            <lightning:button type="button" label="Save" variant="brand" onclick="{!c.clickCreate}"/>
+        </div>
+    </div>
+</aura:component>

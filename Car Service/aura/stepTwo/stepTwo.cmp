@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable" controller="stepTwoController" >
+    <aura:attribute name="newSkillRequirement" type="SkillRequirement" default="{'sObjectType':'SkillRequirement',
+                                                                                'SkillLevel': 0 }"/>
+    <aura:attribute name="workTypeId" type="Id"/>
+    <aura:attribute name="selectedLookUpWorkType" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpSkill" type="sObject" default="{}"/>
+    
+    <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+        <div class="slds-grid slds-border_bottom slds-align_absolute-center">
+            <span class="slds-text-heading_large slds-p-bottom_medium"> New Skill Requirement</span>
+        </div>
+        <div class="slds-grid slds-grid_vertical">
+            <c:customLookUpForPrePolution objectAPIName="WorkType" IconName="standard:work_type" selectedRecord="{!v.selectedLookUpWorkType}" label="Required For"/>
+            <div class="errorMessage slds-text slds-hide" aura:id="errorWorkType">
+                Complete this field!
+            </div>
+            <c:customLookup objectAPIName="Skill" IconName="standard:skill_requirement" selectedRecord="{!v.selectedLookUpSkill}" label="Skill Required"/>
+            <div class="errorMessage slds-text slds-hide" aura:id="errorSkill">
+                Complete this field!
+            </div>
+            <lightning:input label="Skill Level" min="0" max="100" step="1"  class="slds-size--1-of-1" messageWhenRangeOverflow="Maximum value of 100" type="number" value="{!v.newSkillRequirement.SkillLevel}"/>
+        </div>
+        <div class="nextButton">
+            <lightning:button type="button" label="Next" variant="brand" onclick="{!c.clickCreate}"/>
+        </div>
+    </div>
+</aura:component>

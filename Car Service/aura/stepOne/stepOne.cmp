@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable" controller="stepOneController">
+    <aura:attribute name="newWorkType" type="WorkType" default="{ 'sObject': 'WorkType',
+    															  'Name': '',
+    															  'Description': '',
+    															  'EstimatedDuration': '',
+    															  'DurationType' : 'hours',
+    															  'ShouldAutoCreateSvcAppt': false}"/>
+    <aura:attribute name="options" type="List" default="[{'label' : '--None--', 'value': 'none'},
+        												 {'label' : 'Hours', 'value': 'hours'},
+        												 {'label' : 'Minutes', 'value': 'minutes'}]"/>
+    
+    <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+	    <div class="slds-border_bottom slds-align_absolute-center">
+            <span class="slds-text-heading_large slds-p-bottom_medium">New Work Type</span>
+        </div>
+        <div class="slds-grid_vertical slds-align_absolute-center">
+            <lightning:input aura:id="workType" label="Work Type Name" class="slds-size--1-of-1"  required="true" value="{!v.newWorkType.Name}"/>
+            <lightning:input aura:id="workType" label="Description" class="slds-size--1-of-1" value="{!v.newWorkType.Description}"/>
+            <lightning:input aura:id="workType" label="Estimated Duration" class="slds-size--1-of-1 slds-p-bottom_small" type="number" formatter="decimal"  required="true" value="{!v.newWorkType.EstimatedDuration}"/>
+            <lightning:combobox aura:id="workType" class="slds-size--1-of-1 slds-p-bottom_medium" options="{!v.options}" label="Duration Types" required="true" value="{!v.newWorkType.DurationType}"/>
+            <lightning:input class="slds-size--1-of-1" label="Auto-Create Service Appointment" type="checkbox" checked="{!v.newWorkType.ShouldAutoCreateSvcAppt}"/>
+        </div>
+        <div class="nextButton">
+            <lightning:button type="button" label="Next" variant="brand" onclick="{!c.clickCreate}"/>
+        </div>
+    </div>
+</aura:component>

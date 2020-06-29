@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable" controller="stepThreeController" >
+    <aura:attribute name="newProductRequired" type="ProductRequired" default="{'sObjectType':'ProductRequired',
+                                                                                'QuantityRequired': '',
+                                                                              	'QuantityUnitOfMeasure': ''}"/>
+    <aura:attribute name="options" type="List" default="[{'label' : '--None--', 'value': 'none'},
+        												 {'label' : 'Each', 'value': 'each'}]"/>
+    <aura:attribute name="selectedLookUpWorkType" type="sObject" default="{}"/>
+    <aura:attribute name="selectedLookUpProduct" type="sObject" default="{}"/>
+    
+    <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+        <div class="slds-grid slds-border_bottom slds-align_absolute-center">
+            <span class="slds-text-heading_large slds-p-bottom_medium"> New Product Required</span>
+        </div>
+        <div class="slds-grid slds-grid_vertical">
+            <c:customLookUpForPrePolution objectAPIName="WorkType" IconName="standard:work_type" selectedRecord="{!v.selectedLookUpWorkType}" label="Parent Record"/>
+            <div class="errorMessage slds-text slds-hide" aura:id="errorWorkType">
+                Complete this field!
+            </div>
+            <c:customLookup objectAPIName="Product2" IconName="standard:product" selectedRecord="{!v.selectedLookUpProduct}" label="Product Required"/>
+   			<div class="errorMessage slds-text slds-hide" aura:id="errorProduct">
+                Complete this field!
+            </div>
+            <lightning:input label="Quantity Required" formatter="decimal" step="0.01"  class="slds-size--1-of-1 slds-p-bottom_small" type="number" value="{!v.newProductRequired.QuantityRequired}"/>
+        	<lightning:combobox aura:id="workType" class="slds-size--1-of-1" options="{!v.options}" label="Quantity Unit Of Measure" required="false" value="{!v.newWorkType.QuantityUnitOfMeasure}"/>
+        </div>
+       
+    </div>
+    <div class="slds-grid slds-align_absolute-center slds-border_top"> 
+        <div class="nextButton">
+            <lightning:button type="button" label="Next" variant="brand" onclick="{!c.clickCreate}"/>
+        </div>
+    </div>
+</aura:component>

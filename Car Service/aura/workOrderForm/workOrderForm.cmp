@@ -1,0 +1,55 @@
+<aura:component implements="force:appHostable" controller="workOrderFormController" >
+    <aura:attribute name="newWorkOrder" type="WorkOrder" default="{'sObjectType':'WorkOrder',
+                                                                       'Status': 'new',
+                                                                       'Priority': 'low',
+                                                                       'Subject': '',
+                                                                       'Description': ''}"/>
+    <aura:attribute name="optionsStatus" type="List" default="[ {'label' : '--None--', 'value': 'none'},
+        														{'label' : 'New', 'value': 'new'},
+        														{'label' : 'In Progress', 'value': 'in progress'},
+        														{'label' : 'On Hold', 'value': 'on hold'},
+        														{'label' : 'Complited', 'value': 'coomplited'},
+        														{'label' : 'Closed', 'value': 'closed'},
+        														{'label' : 'Cannot Complete', 'value': 'cannot complete'},
+        														{'label' : 'Canceled', 'value': 'canceled'}]"/>
+    <aura:attribute name="optionsPriority" type="List" default="[ {'label' : '--None--', 'value': 'none'},
+        														  {'label' : 'Low', 'value': 'low'},
+        														  {'label' : 'Medium', 'value': 'medium'},
+        														  {'label' : 'High', 'value': 'high'},
+                                                                  {'label' : 'Critical', 'value': 'critical'},]"/>
+       
+    <aura:attribute name="selectedLookUpWorkType" type="sObject" default="{}"/>
+    
+    <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+        <div class="slds-grid slds-align_absolute-center slds-border_bottom">
+            <span class="slds-text-heading_large slds-p-bottom_medium"> New Work Order</span>
+        </div>
+        <div class="slds-grid slds-grid_vertical">
+            <div class="slds-col slds-grid slds-gutters">
+                <div class="halfArea slds-col slds-size--1-of-2">
+            		<lightning:combobox aura:id="workOrder" class="slds-size--1-of-1" options="{!v.optionsStatus}" label="Status" required="false" value="{!v.newWorkOrder.Status}"/>
+                </div>
+                <div class="halfArea slds-col slds-size--1-of-2">
+                    <lightning:combobox aura:id="workOrder" class="slds-size--1-of-1" options="{!v.optionsPriority}" label="Priority" required="false" value="{!v.newWorkOrder.Priority}"/>
+                </div>
+            </div>
+            <div class="slds-col slds-grid slds-gutters">
+                <div class="halfArea slds-col slds-size--1-of-2"/>
+                <div class="halfArea slds-col slds-size--1-of-2">
+                    <c:customLookup objectAPIName="WorkType" IconName="standard:work_type" selectedRecord="{!v.selectedLookUpWorkType}" label="Work Type" required="false"/>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1">
+            	<lightning:input aura:id="workOrder" label="Subject" value="{!v.newWorkOrder.Subject}"/>
+            </div>
+            <div class="slds-col slds-size--1-of-1">
+            	<lightning:textarea aura:id="workOrder" label="Description" value="{!v.newWorkOrder.Description}" />
+            </div>
+    	</div>
+    </div>
+    <div class="slds-grid slds-align_absolute-center slds-border_top"> 
+        <div class="nextButton">
+            <lightning:button type="button" label="Next" variant="brand" onclick="{!c.clickCreate}"/>
+        </div>
+    </div>
+</aura:component>
